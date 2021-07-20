@@ -6,8 +6,10 @@ This is a simple cli tool for rendering a "task board" from a directory structur
 ## Usage 
 
 ```sh
-./kanban [project path] [output html path]
+./kanban render [project path] [output html path]
 ```
+
+* TODO: Would be nice to have an init or new sub-command to create the appropriate project directory structure
 
 ## Data Format
 Each file equates to a task.  Where the file is within the heirarchy indicates its status.
