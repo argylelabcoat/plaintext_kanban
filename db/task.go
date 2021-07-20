@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/text"
 	"os"
 	"path"
@@ -68,14 +69,19 @@ func LoadTaskFromFile(filepath string) (task *Task, err error) {
 	if nil != err {
 		return
 	}
-	doc := markdown.Parser().Parse(text.NewReader(source))
-	title, ok := doc.OwnerDocument().Meta()["Title"]
-	if !ok {
-		err = NewErrorTaskMissingMeta(projpath, "Title")
+
+	context := parser.NewContext()
+
+	markdown.Parser().Parse(text.NewReader(source), parser.WithContext(context))
+	metaData := meta.Get(context)
+	title, ok := metaData["Title"]
+	if !ok || title == nil {
+		err = NewErrorTaskMissingMeta(filepath, "Title")
+		return
 	}
 
-	assignedto, ok := doc.OwnerDocument().Meta()["AssignedTo"]
-	if !ok {
+	assignedto, ok := metaData["AssignedTo"]
+	if !ok || assignedto == nil {
 		assignedto = ""
 	}
 
