@@ -38,7 +38,7 @@ const projectTemplateText = `
   </head>
   <body>
   <section class="section">
-    <div class="container">
+    <div class="container has-background-primary-light p-1">
         <div class="columns is-mobile is-multiline is-centered">
 		{{ .Columns }}
 		</div>
